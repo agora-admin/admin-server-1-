@@ -1,8 +1,7 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const app = express();
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(express.urlencoded({extended: true}))
+app.use(express.json());
 
 const port = 3001;
 const T = require('./twit');
@@ -300,7 +299,10 @@ app.post('/4/setSpeaker', async (req, res) => {
 app.post('/80001/setSpeaker', async (req, res) => {
     try {
         let tx = await mumbai.setSpeaker(req.body);
+        console.log("In /80001/setSpeaker function: ",{tx});
         let adds = await mumbai.getApprovedSpeakerAddresses(+req.body.id);
+        console.log("In /80001/setSpeaker function: ",{adds});
+        
         res.status(200).send({
             tx: tx,
             addresses: adds

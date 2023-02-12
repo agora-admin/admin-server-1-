@@ -4,20 +4,17 @@
   "description": "Admin server to communicate to the blockchain",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon index.js",
-    "start": "node index.js"
+    "start": "node .",
+    "dev": "nodemon ."
   },
   "author": "azaek",
   "license": "MIT",
   "dependencies": {
-    "@truffle/hdwallet-provider": "^2.0.6",
-    "body-parser": "^1.20.0",
-    "dotenv": "^16.0.0",
-    "express": "^4.17.3",
-    "jsonwebtoken": "^8.5.1",
-    "nodemon": "^2.0.15",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "nodemon": "^2.0.20",
     "twit": "^2.2.11",
-    "web3": "^1.7.3"
+    "web3": "^1.8.1"
   }
 }

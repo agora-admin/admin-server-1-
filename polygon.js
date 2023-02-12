@@ -36,16 +36,16 @@ const setSchedule = async (body) => {
             gasLimit: 1000000,
             gasPrice: await web3.eth.getGasPrice()
         })
-            .then(result => {
-                console.log("[Mumbai]","Discourse scheduled at ", body.timestamp, " for proposal ", body.id);
-                console.log(result);
-                resolve(result);
-            })
-            .catch(err => {
-                console.log("[Mumbai]","Error Scheduling Discourse for", body.id, "at", body.timestamp);
-                console.log(err);
-                reject(err);
-            })
+        .then(result => {
+            console.log("[Mumbai]","Discourse scheduled at ", body.timestamp, " for proposal ", body.id);
+            console.log(result);
+            resolve(result);
+        })
+        .catch(err => {
+            console.log("[Mumbai]","Error Scheduling Discourse for", body.id, "at", body.timestamp);
+            console.log(err);
+            reject(err);
+        })
     })
 }
 
@@ -53,25 +53,26 @@ const setSpeaker = async (body) => {
     return new Promise(async (resolve, reject) => {
         discourseHub.methods.setSpeakerAddress(+body.id, body.handle, body.address).send({
             from: account.address,
-            gasLimit: 10000000,
+            gas: 10000000,
             gasPrice: await web3.eth.getGasPrice()
         })
-            .then(result => {
-                console.log("[Mumbai]","Speaker set for ", body.id, "add:", body.address);
-                console.log(result);
-                resolve(result);
-            })
-            .catch(err => {
-                console.log("[Mumbai]","Error setting speaker for", body.id, "add:", body.address);
-                console.log(err);
-                reject(err);
-            })
+        .then(result => {
+            console.log("[Mumbai]","Speaker set for ", body.id, "add:", body.address);
+            console.log(result);
+            resolve(result);
+        })
+        .catch(err => {
+            console.log("[Mumbai]","Error setting speaker for", body.id, "add:", body.address);
+            console.log(err);
+            reject(err);
+        })
     })
 }
 
 const getApprovedSpeakerAddresses = (id) => {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve,reject) => {
         discourseHub.methods.getApprovedSpeakerAddresses(id).call().then(result => {
+            console.log("In getApprovedSpeakerAddresses: ",{result});
             resolve(result);
         }).catch(err => {
             reject(err);
