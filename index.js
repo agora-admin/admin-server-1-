@@ -8,39 +8,33 @@ const T = require('./twit');
 const { checkAuth } = require('./token');
 const aurora = require('./aurora');
 const mumbai = require('./polygon');
-const rinkeby = require('./rinkeby');
 const polygon = require('./polygonMainnet');
 const godwoken = require('./godwoken');
 require('dotenv').config();
 
-// app.use(function(req, res, next) {
-//     const token = req.headers['authorization'];
-//     if (!token) {
-//         return res.status(401).send({ auth: false, message: 'No token provided.' });
-//     }
-//     checkAuth(req, res, next);
-// })
+app.use(function(req, res, next) {
+    const token = req.headers['authorization'];
+    if (!token) {
+        return res.status(401).send({ auth: false, message: 'No token provided.' });
+    }
+    checkAuth(req, res, next);
+})
 
 app.get('/ping', async (req, res) => {
-    console.log("hello alok")
     try {
         let p_b = await polygon.getBlock();
         let m_b = await mumbai.getBlock();
         let a_b = await aurora.getBlock();
-        // let r_b = await rinkeby.getBlock();
         let p_c = await polygon.getTotalProposals();
         let m_c = await mumbai.getTotalProposals();
         let a_c = await aurora.getTotalProposals();
-        // let r_c = await rinkeby.getTotalProposals();
         res.status(200).send({
             polygon_block: p_b,
             mumbai_block: m_b,
             aurora_block: a_b,
-            // rinkeby_block: r_b,
             polygon_count: p_c,
             mumbai_count: m_c,
             aurora_count: a_c,
-            // rinkeby_count: r_c
         });
     } catch (err) {
         console.log(err)
