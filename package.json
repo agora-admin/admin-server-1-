@@ -14,7 +14,11 @@
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.0",
     "nodemon": "^2.0.20",
-    "twit": "^2.2.11",
-    "web3": "^1.8.1"
+    "twit": "^2.2.11"
+  },
+  "devDependencies": {
+    "@nomiclabs/hardhat-web3": "^2.0.0",
+    "hardhat": "^2.13.0",
+    "web3": "^1.9.0"
   }
 }

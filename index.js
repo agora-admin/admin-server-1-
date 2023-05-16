@@ -100,12 +100,10 @@ app.get('/block', async (req, res) => {
         let p_b = await mumbai.getBlock();
         let m_b = await mumbai.getBlock();
         let a_b = await aurora.getBlock();
-        let r_b = await rinkeby.getBlock();
         res.status(200).send({
             polygon_block: p_b,
             mumbai_block: m_b,
-            aurora_block: a_b,
-            rinkeby_block: r_b
+            aurora_block: a_b
         });
     } catch (err) {
         res.status(500).send(err);
@@ -119,13 +117,11 @@ app.get('/isAdmin', async (req, res) => {
         let p = await polygon.isAdmin();
         let m = await mumbai.isAdmin();
         let a = await aurora.isAdmin();
-        let r = await rinkeby.isAdmin();
         
         res.send({
             pAdmin: p,
             mAdmin: m,
-            aAdmin: a,
-            rAdmin: r
+            aAdmin: a
         })
     } catch (err) {
         res.status(500).send(err);
@@ -149,12 +145,10 @@ app.get('/balance', async (req, res) => {
         let a_bal = await aurora.getBalance();
         let m_bal = await mumbai.getBalance();
         let p_bal = await polygon.getBalance();
-        let r_bal = await rinkeby.getBalance();
         res.send({
             aurora: a_bal,
             polygon: p_bal,
-            mumbai: m_bal,
-            rinkeby: r_bal
+            mumbai: m_bal
         })
     } catch (err) {
         res.status(500).send(err);
@@ -162,19 +156,22 @@ app.get('/balance', async (req, res) => {
     }
 })
 
-// app.post('/fund', (req, res) => {
-//     // res.send(req.body);
-//     discourseHub.methods.pledgeFunds(req.body.id).send({
-//         from: account.address,
-//         value: web3.utils.toWei(req.body.amount, 'ether'),
-//         gasLimit: 300000
-//     }).then(receipt => {
-//         res.send(receipt);
-//     }).catch(err => {
-//         res.status(500).send(err);
-//     })
+app.get('/test', (req, res) => {
+    // res.send(req.body);
+    mumbai.discourseHub.methods.getDiscourseDeadline(48)
+    .call()
+    // .send({
+    //     from: account.address,
+    //     value: web3.utils.toWei(req.body.amount, 'ether'),
+    //     gasLimit: 300000
+    // })
+    .then(receipt => {
+        res.send(receipt);
+    }).catch(err => {
+        res.status(500).send(err);
+    })
     
-// })
+})
 
 // ----------- isDisputed ----------------------
 

@@ -53,7 +53,7 @@ const setSpeaker = async (body) => {
     return new Promise(async (resolve, reject) => {
         discourseHub.methods.setSpeakerAddress(+body.id, body.handle, body.address).send({
             from: account.address,
-            gas: 10000000,
+            gasLimit: 1000000,
             gasPrice: await web3.eth.getGasPrice()
         })
         .then(result => {
@@ -144,5 +144,6 @@ module.exports = {
     getTotalProposals,
     getApprovedSpeakerAddresses,
     isAdmin,
-    getBlock
+    getBlock,
+    discourseHub
 }
