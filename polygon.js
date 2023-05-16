@@ -134,7 +134,6 @@ const getBlock = () => {
     })
 }
 
-
 module.exports = {
     isDisputed,
     getBalance,
@@ -145,5 +144,6 @@ module.exports = {
     getApprovedSpeakerAddresses,
     isAdmin,
     getBlock,
-    discourseHub
+    discourseHub,
+    account
 }

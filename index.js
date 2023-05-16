@@ -10,7 +10,10 @@ const aurora = require('./aurora');
 const mumbai = require('./polygon');
 const polygon = require('./polygonMainnet');
 const godwoken = require('./godwoken');
+const Web3 = require('web3');
 require('dotenv').config();
+
+const web3 = new Web3(new Web3.providers.HttpProvider(process.env.ALCHEMY_ENDPOINT_MUMBAI));
 
 app.use(function(req, res, next) {
     const token = req.headers['authorization'];
@@ -534,13 +537,14 @@ app.post('/tweet', (req, res) => {
 })
 
 
-// app.get('/sign', (req, res) => {
-//     let message = req.query.message;
-//     let signature = web3.eth.accounts.sign(message, account.privateKey);
+// app.get('/sign', async (req, res) => {
+//     let S = await mumbai.discourseHub.methods.changeMinimumInitialFunds(web3.utils.toWei('0.01', 'ether'),).send({
+//         from: mumbai.account.address,
+//         gasLimit: 1000000
+//     })
 //     res.send({
-//         message: message,
-//         signature: signature
-//     });
+//         test: S
+//     })
 // })
 
 app.listen(port, () => {
