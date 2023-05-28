@@ -10,6 +10,7 @@ const aurora = require('./aurora');
 const mumbai = require('./polygon');
 const polygon = require('./polygonMainnet');
 const godwoken = require('./godwoken');
+const bsc = require('./binanceSmartChain');
 const Web3 = require('web3');
 require('dotenv').config();
 
@@ -28,16 +29,21 @@ app.get('/ping', async (req, res) => {
         let p_b = await polygon.getBlock();
         let m_b = await mumbai.getBlock();
         let a_b = await aurora.getBlock();
+        let b_b = await bsc.getBlock();
         let p_c = await polygon.getTotalProposals();
         let m_c = await mumbai.getTotalProposals();
         let a_c = await aurora.getTotalProposals();
+        let b_c = await bsc.getTotalProposals();
+
         res.status(200).send({
             polygon_block: p_b,
             mumbai_block: m_b,
             aurora_block: a_b,
+            bsc_block: b_b,
             polygon_count: p_c,
             mumbai_count: m_c,
             aurora_count: a_c,
+            bsc_count: b_c
         });
     } catch (err) {
         console.log(err)
@@ -68,12 +74,14 @@ app.get('/hot', async (req, res) => {
         let bal4 = await polygon.getTotalProposals();
         let bal2 = await aurora.getTotalProposals();
         let bal3 = await rinkeby.getTotalProposals();
+        let bal5 = await bsc.getTotalProposals();
         
         res.status(200).send({
             pCount_p: bal4,
             pCount_m: bal,
             pCount_a: bal2,
-            pCount_r: bal3
+            pCount_r: bal3,
+            pCount_b: bal5
         })
     } catch (err) {
         res.status(500).send(err);
@@ -100,13 +108,15 @@ app.get('/hot', async (req, res) => {
 
 app.get('/block', async (req, res) => {
     try {
-        let p_b = await mumbai.getBlock();
+        let p_b = await polygon.getBlock();
         let m_b = await mumbai.getBlock();
         let a_b = await aurora.getBlock();
+        let b_b = await bsc.getBlock();
         res.status(200).send({
             polygon_block: p_b,
             mumbai_block: m_b,
-            aurora_block: a_b
+            aurora_block: a_b,
+            bsc_block: b_b
         });
     } catch (err) {
         res.status(500).send(err);
@@ -120,11 +130,13 @@ app.get('/isAdmin', async (req, res) => {
         let p = await polygon.isAdmin();
         let m = await mumbai.isAdmin();
         let a = await aurora.isAdmin();
+        let b = await bsc.isAdmin();
         
         res.send({
             pAdmin: p,
             mAdmin: m,
-            aAdmin: a
+            aAdmin: a,
+            bAdmin: b
         })
     } catch (err) {
         res.status(500).send(err);
@@ -148,10 +160,12 @@ app.get('/balance', async (req, res) => {
         let a_bal = await aurora.getBalance();
         let m_bal = await mumbai.getBalance();
         let p_bal = await polygon.getBalance();
+        let b_bal = await bsc.getBalance();
         res.send({
             aurora: a_bal,
             polygon: p_bal,
-            mumbai: m_bal
+            mumbai: m_bal,
+            binance: b_bal
         })
     } catch (err) {
         res.status(500).send(err);
@@ -224,6 +238,17 @@ app.get('/80001/isDisputed/:id', (req, res) => {
 app.get('/1313161555/isDisputed/:id', (req, res) => {
     let id = req.params.id;
     aurora.isDisputed(id)
+        .then(result => {
+            res.send(result);
+        })
+        .catch(err => {
+            res.send(err);
+        })
+})
+
+app.get('/56/isDisputed/:id', (req, res) => {
+    let id = req.params.id;
+    bsc.isDisputed(id)
         .then(result => {
             res.send(result);
         })
@@ -319,6 +344,26 @@ app.post('/1313161555/setSpeaker', async (req, res) => {
     try {
         let tx = await aurora.setSpeaker(req.body);
         let adds = await aurora.getApprovedSpeakerAddresses(+req.body.id);
+        res.status(200).send({
+            tx: tx,
+            addresses: adds
+        })
+        console.log({
+            tx: tx,
+            addresses: adds
+        });
+    } catch (err) {
+        res.status(500).send({
+            error: err.message
+        });
+        console.log(err);
+    }
+})
+
+app.post('/56/setSpeaker', async (req, res) => {
+    try {
+        let tx = await bsc.setSpeaker(req.body);
+        let adds = await bsc.getApprovedSpeakerAddresses(+req.body.id);
         res.status(200).send({
             tx: tx,
             addresses: adds
@@ -435,6 +480,26 @@ app.post('/1313161555/setSchedule', async (req, res) => {
     }
 })
 
+app.post('/56/setSchedule', async (req, res) => {
+    try {
+        let tx = await bsc.setSchedule(req.body);
+        let adds = await bsc.getApprovedSpeakerAddresses(+req.body.id);
+        res.status(200).send({
+            tx: tx,
+            addresses: adds
+        })
+        console.log({
+            tx: tx,
+            addresses: adds
+        });
+    } catch (err) {
+        res.status(500).send({
+            error: err.message
+        });
+        console.log(err);
+    }
+})
+
 // ----------------- terminateProposal --------------------
 
 app.post('/71401/terminateProposal', async (req, res) => {
@@ -505,6 +570,23 @@ app.post('/80001/terminateProposal', async (req, res) => {
 app.post('/1313161555/terminateProposal', async (req, res) => {
     try {
         let tx = await aurora.terminateProposal(req.body.id);
+        res.status(200).send({
+            tx: tx
+        })
+        console.log({
+            tx: tx
+        });
+    } catch (err) {
+        res.status(500).send({
+            error: err.message
+        });
+        console.log(err);
+    }
+})
+
+app.post('/56/terminateProposal', async (req, res) => {
+    try {
+        let tx = await bsc.terminateProposal(req.body.id);
         res.status(200).send({
             tx: tx
         })
