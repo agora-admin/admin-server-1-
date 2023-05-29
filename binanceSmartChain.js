@@ -3,7 +3,7 @@ const DiscourseAbi = require('./abi/DiscourseHub.json');
 
 const web3 = new Web3(new Web3.providers.HttpProvider(process.env.BSC_ENDPOINT));
 let discourseHub = new web3.eth.Contract(DiscourseAbi, process.env.DISCOURSE_CONTRACT_ADDRESS_BSC);
-let account = web3.eth.accounts.privateKeyToAccount(process.env.ADMIN_PRIVATE_KEY_MAINNET);
+let account = web3.eth.accounts.privateKeyToAccount(process.env.ADMIN_PRIVATE_KEY_BINANCE);
 web3.eth.accounts.wallet.add(account);
 
 const isDisputed = (id) => {
@@ -37,12 +37,12 @@ const setSchedule = async (body) => {
             gasPrice: await web3.eth.getGasPrice()
         })
             .then(result => {
-                console.log("[Binance Smart Chain]","Discourse scheduled at ", body.timestamp, " for proposal ", body.id);
+                console.log("[BNB Smart Chain]","Discourse scheduled at ", body.timestamp, " for proposal ", body.id);
                 console.log(result);
                 resolve(result);
             })
             .catch(err => {
-                console.log("[Binance Smart Chain]","Error Scheduling Discourse for", body.id, "at", body.timestamp);
+                console.log("[BNB Smart Chain]","Error Scheduling Discourse for", body.id, "at", body.timestamp);
                 console.log(err);
                 reject(err);
             })
@@ -63,12 +63,12 @@ const setSpeaker = async (body) => {
             gasPrice: await web3.eth.getGasPrice()
         })
             .then(result => {
-                console.log("[Binance Smart Chain]","Speaker set for ", body.id, "add:", body.address);
+                console.log("[BNB Smart Chain]","Speaker set for ", body.id, "add:", body.address);
                 console.log(result);
                 resolve(result);
             })
             .catch(err => {
-                console.log("[Binance Smart Chain]","Error setting speaker for", body.id, "add:", body.address);
+                console.log("[BNB Smart Chain]","Error setting speaker for", body.id, "add:", body.address);
                 console.log(err);
                 reject(err);
             })
@@ -93,12 +93,12 @@ const terminateProposal = async (id) => {
             gasPrice: await web3.eth.getGasPrice()
         })
             .then(result => {
-                console.log("[Binance Smart Chain]","Proposal terminated ", id);
+                console.log("[BNB Smart Chain]","Proposal terminated ", id);
                 console.log(result);
                 resolve(result);
             })
             .catch(err => {
-                console.log("[Binance Smart Chain]","Error terminating proposal", id);
+                console.log("[BNB Smart Chain]","Error terminating proposal", id);
                 console.log(err);
                 reject(err);
             })
