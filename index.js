@@ -12,9 +12,12 @@ const polygon = require('./polygonMainnet');
 const godwoken = require('./godwoken');
 const bsc = require('./binanceSmartChain');
 const Web3 = require('web3');
+const cors = require('cors');
 require('dotenv').config();
 
 const web3 = new Web3(new Web3.providers.HttpProvider(process.env.ALCHEMY_ENDPOINT_MUMBAI));
+
+app.use(cors());
 
 app.use(function(req, res, next) {
     const token = req.headers['authorization'];
