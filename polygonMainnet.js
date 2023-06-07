@@ -3,7 +3,7 @@ const DiscourseAbi = require('./abi/DiscourseHub.json');
 
 const web3 = new Web3(new Web3.providers.HttpProvider(process.env.ALCHEMY_ENDPOINT_POLYGON));
 let discourseHub = new web3.eth.Contract(DiscourseAbi, process.env.DISCOURSE_CONTRACT_ADDRESS_POLYGON);
-let account = web3.eth.accounts.privateKeyToAccount(process.env.ADMIN_PRIVATE_KEY_MAINNET);
+let account = web3.eth.accounts.privateKeyToAccount(process.env.ADMIN_PRIVATE_KEY_BINANCE);
 web3.eth.accounts.wallet.add(account);
 
 const isDisputed = (id) => {
